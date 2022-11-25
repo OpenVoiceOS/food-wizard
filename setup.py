@@ -3,7 +3,7 @@ from setuptools import setup
 import os
 from os import walk, path
 
-URL = "https://github.com/aiix/food-wizard"
+URL = "https://github.com/OpenVoiceOS/food-wizard"
 SKILL_CLAZZ = "FoodWizardSkill"  # needs to match __init__.py class name
 PYPI_NAME = "food-wizard"  # pip install PYPI_NAME
 
@@ -44,7 +44,7 @@ setup(
     name=PYPI_NAME,
     version='0.0.1',
     description='Recipes Skill Plugin',
-    url='https://github.com/AIIX/food-wizard',
+    url='https://github.com/OpenVoiceOS/food-wizard',
     author='Aix',
     author_email='aix.m@outlook.com',
     license='Apache-2.0',
