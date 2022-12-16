@@ -20,13 +20,13 @@ import QtQuick.Layouts 1.4
 import QtQuick 2.8
 import QtQuick.Controls 2.2
 import org.kde.kirigami 2.11 as Kirigami
-
 import Mycroft 1.0 as Mycroft
+import QtGraphicalEffects 1.0
+
 import "code/helper.js" as HelperJS
 
-Mycroft.ScrollableDelegate {
+Mycroft.Delegate {
     id: root
-    property int uiWidth: parent.width
     skillBackgroundSource: "https://source.unsplash.com/1920x1080/?+food"
     property bool compactMode: parent.height >= 550 ? 0 : 1
     fillWidth: true
@@ -55,48 +55,104 @@ Mycroft.ScrollableDelegate {
         parent.parent.parent.currentItem.contentItem.forceActiveFocus()
     }
     
-    Kirigami.CardsGridView {
+    GridView {
         id: uiGridView
-        maximumColumnWidth: Kirigami.Units.gridUnit * 12
-        cellHeight: Kirigami.Units.gridUnit * 15
+        anchors.fill: parent
+        cacheBuffer: width
+        property int columns: {
+            var width = parent.width
+            if (width >= 1920) {
+                return 4
+            } else if (width >= 1366) {
+                return 3
+            } else if (width >= 1024) {
+                return 2
+            } else {
+                return 1
+            }
+        }
+        cellWidth: parent.width / columns
+        cellHeight: Kirigami.Units.gridUnit * 12
         model: sessionData.recipeBlob.hits
         keyNavigationEnabled: true
         highlightFollowsCurrentItem: true
+        ScrollBar.vertical: ScrollBar {}
         
-        delegate: Kirigami.Card {
-            id: card
+        delegate: Item {
+            id: cardRoot
+            width: uiGridView.cellWidth
+            height: uiGridView.cellHeight
 
-            banner.sourceSize.width: width
-            banner.sourceSize.height: width
+            ItemDelegate {
+                id: card
+                width: uiGridView.cellHeight + Kirigami.Units.gridUnit
+                height: uiGridView.cellHeight - Kirigami.Units.gridUnit
+                anchors.centerIn: parent
 
-            showClickFeedback: true
+                background: Rectangle {
+                    id: cardBackground
+                    color: Kirigami.Theme.backgroundColor
+                    radius: Kirigami.Units.largeSpacing / 2
+                    border.color: Qt.rgba(Kirigami.Theme.backgroundColor.r, Kirigami.Theme.backgroundColor.g, Kirigami.Theme.backgroundColor.b, 0.5)
+                    border.width: 1
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        horizontalOffset: 0
+                        verticalOffset: 0
+                        radius: 10
+                        samples: 16
+                        color: Qt.rgba(0, 0, 0, 0.5)
+                    }
+                }
 
-            banner {
-                title: modelData.recipe.label
-                source: modelData.recipe.image
-                titleWrapMode: Text.WordWrap
-                titleLevel: 2
-            }
+                ColumnLayout {
+                    anchors.fill: parent
 
-            contentItem: Label {
-                wrapMode: Text.WordWrap
-                text: modelData.recipe.source
-                color: Kirigami.Theme.textColor
-            }
+                    Banner {
+                        id: bannerImage
+                        title: modelData.recipe.label
+                        source: modelData.recipe.image
+                        titleWrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        radius: cardBackground.radius
+                    }
 
-            onClicked: {
-                var RecipeUrl = modelData.recipe.url;
-                triggerGuiEvent("foodwizard.showrecipe", {"recipe": RecipeUrl});
+                    Label {
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Mycroft.Units.gridUnit * 2
+                        Layout.leftMargin: Mycroft.Units.gridUnit / 2
+                        Layout.rightMargin: Mycroft.Units.gridUnit / 2
+                        Layout.bottomMargin: Mycroft.Units.gridUnit / 2
+                        Layout.topMargin: -Mycroft.Units.gridUnit / 2                     
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        text: modelData.recipe.source
+                        font.pixelSize: parent.width * 0.07
+                        color: Kirigami.Theme.textColor
+                    }
+                }
+
+                onClicked: {
+                    var RecipeUrl = modelData.recipe.url;
+                    Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sound/clicked.wav"))
+                    triggerGuiEvent("foodwizard.showrecipe", {"recipe": RecipeUrl});
+                }
+
+                Keys.onReturnPressed: {
+                    clicked()
+                }
+                
+                Rectangle {
+                    anchors.fill: parent
+                    visible: cardRoot.activeFocus ? 1 : 0
+                    color: Qt.rgba(0, 0, 3, 0.2)
+                }
             }
 
             Keys.onReturnPressed: {
-                clicked()
-            }
-            
-            Rectangle {
-                anchors.fill: parent
-                visible: card.activeFocus ? 1 : 0
-                color: Qt.rgba(0, 0, 3, 0.2)
+                card.clicked()
             }
         }
     }

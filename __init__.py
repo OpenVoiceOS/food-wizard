@@ -42,6 +42,7 @@ class FoodWizardSkill(MycroftSkill):
                                   self.handle_read_current_recipe_ingredients_intent)
         self.gui.register_handler('foodwizard.readrecipe.instructions',
                                   self.handle_read_current_recipe_instructions_intent)
+        self.gui.register_handler('foodwizard.close', self.handle_close_intent)
 
     @intent_file_handler("open.food.wizard.intent")
     def showHome(self, message):
@@ -275,6 +276,9 @@ class FoodWizardSkill(MycroftSkill):
         Mycroft Stop Function
         """
         pass
+    
+    def handle_close_intent(self, message):
+        self.gui.release()
 
 
 def create_skill():
