@@ -10,6 +10,8 @@ from mycroft.skills.core import MycroftSkill, intent_file_handler
 from mycroft.skills.context import *
 from mycroft_bus_client.message import Message
 from .skill import providerHelper
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils import classproperty
 
 __author__ = 'aix'
 
@@ -25,6 +27,18 @@ class FoodWizardSkill(MycroftSkill):
         self.recipes_object = None
         self.provider_helper = None
         self.active_recipe = None
+
+    @classproperty
+    def runtime_requirements(self):
+        return RuntimeRequirements(internet_before_load=True,
+                                   network_before_load=True,
+                                   gui_before_load=True,
+                                   requires_internet=True,
+                                   requires_network=True,
+                                   requires_gui=True,
+                                   no_internet_fallback=False,
+                                   no_network_fallback=False,
+                                   no_gui_fallback=False)
 
     def initialize(self):
         """ 

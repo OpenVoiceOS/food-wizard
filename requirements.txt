@@ -1,3 +1,5 @@
 unidecode
 cloudscraper
 beautifulsoup4
+ovos-utils~=0.0, >=0.0.28a4
+ovos_workshop~=0.0, >=0.0.11a4
