@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick.Layouts 1.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import org.kde.kirigami 2.15 as Kirigami
+import QtQuick.Layouts 1.4
+import QtQuick 2.8
+import QtQuick.Controls 2.2
+import org.kde.kirigami 2.10 as Kirigami
 import Mycroft 1.0 as Mycroft
-import Qt5Compat.GraphicalEffects
+import QtGraphicalEffects 1.0
 import "code/helper.js" as HelperJS
 
 Mycroft.Delegate {
@@ -76,7 +76,7 @@ Mycroft.Delegate {
                 Label {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
-                    text: qsTr("Find Something To Cook With Custom Ingredients")
+                    text: "Find Something To Cook With Custom Ingredients"
                     anchors.left: headsImage.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
@@ -122,7 +122,7 @@ Mycroft.Delegate {
                         }
                     }
 
-                    Keys.onReturnPressed: (event)=> {
+                    Keys.onReturnPressed: {
                         Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sound/clicked.wav"))
                         triggerGuiEvent("foodwizard.close", {})
                     }
@@ -149,7 +149,7 @@ Mycroft.Delegate {
                 KeyNavigation.up: closeBtn
                 focus: true
 
-                Keys.onReturnPressed: (event)=> { 
+                Keys.onReturnPressed: { 
                     txtFldInternal.forceActiveFocus()
                 }
                 
@@ -159,13 +159,13 @@ Mycroft.Delegate {
                     anchors.margins: Kirigami.Units.largeSpacing
                     KeyNavigation.down: answerButton
                     font.pixelSize: txtFld.height * 0.25
-                    placeholderText: qsTr("Add a list of ingredients e.g., orange, cheese, chicken, lime")
+                    placeholderText: "Add a list of ingredients e.g., orange, cheese, chicken, lime"
 
                     onAccepted: {
                         Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sound/clicked.wav"))
                         triggerGuiEvent("foodwizard.searchrecipe", {"query": txtFldInternal.text})
                     }
-                    Keys.onReturnPressed: (event)=> {
+                    Keys.onReturnPressed: {
                         Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sound/clicked.wav"))
                         triggerGuiEvent("foodwizard.searchrecipe", {"query": txtFldInternal.text})
                     }
@@ -207,7 +207,7 @@ Mycroft.Delegate {
                     answerButton.opacity = 1
                 }
 
-                Keys.onReturnPressed: (event)=> {
+                Keys.onReturnPressed: {
                     clicked()
                 }
             }

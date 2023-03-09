@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.12
-import QtQuick.Layouts 1.4
-import QtQuick.Controls 2.12
-import org.kde.kirigami 2.11 as Kirigami
-import QtGraphicalEffects 1.0
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
+import org.kde.kirigami 2.19 as Kirigami
 import Mycroft 1.0 as Mycroft
+import Qt5Compat.GraphicalEffects
 import "code/helper.js" as HelperJS
 
 Mycroft.Delegate {
@@ -30,7 +30,7 @@ Mycroft.Delegate {
     property bool horizontalMode: width > height ? 1 : 0
     fillWidth: true
     
-    Keys.onBackPressed: {
+    Keys.onBackPressed: (event)=> {
         parent.parent.parent.currentIndex--
         parent.parent.parent.currentItem.contentItem.forceActiveFocus()
     }

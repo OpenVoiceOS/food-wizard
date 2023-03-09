@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick.Layouts 1.4
-import QtQuick 2.8
-import QtQuick.Controls 2.2
-import org.kde.kirigami 2.11 as Kirigami
+import QtQuick.Layouts 1.15
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import org.kde.kirigami 2.19 as Kirigami
 import Mycroft 1.0 as Mycroft
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 
 import "code/helper.js" as HelperJS
 
@@ -158,7 +158,7 @@ Mycroft.Delegate {
     }
 
     Kirigami.Heading {
-        text: "No recipes found"
+        text: qsTr("No recipes found")
         parent: root
         anchors.centerIn: parent
         visible: uiGridView.count == 0
