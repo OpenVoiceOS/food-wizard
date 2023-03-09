@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick.Layouts 1.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import org.kde.kirigami 2.19 as Kirigami
+import QtQuick.Layouts 1.4
+import QtQuick 2.8
+import QtQuick.Controls 2.2
+import org.kde.kirigami 2.11 as Kirigami
 import Mycroft 1.0 as Mycroft
-import Qt5Compat.GraphicalEffects
+import QtGraphicalEffects 1.0
 
 import "code/helper.js" as HelperJS
 
@@ -50,7 +50,7 @@ Mycroft.Delegate {
         uiGridView.forceActiveFocus()
     }
     
-    Keys.onBackPressed: (event)=> {
+    Keys.onBackPressed: {
         parent.parent.parent.currentIndex--
         parent.parent.parent.currentItem.contentItem.forceActiveFocus()
     }
@@ -140,7 +140,7 @@ Mycroft.Delegate {
                     triggerGuiEvent("foodwizard.showrecipe", {"recipe": RecipeUrl});
                 }
 
-                Keys.onReturnPressed: (event)=> {
+                Keys.onReturnPressed: {
                     clicked()
                 }
                 
@@ -151,14 +151,14 @@ Mycroft.Delegate {
                 }
             }
 
-            Keys.onReturnPressed: (event)=> {
+            Keys.onReturnPressed: {
                 card.clicked()
             }
         }
     }
 
     Kirigami.Heading {
-        text: qsTr("No recipes found")
+        text: "No recipes found"
         parent: root
         anchors.centerIn: parent
         visible: uiGridView.count == 0

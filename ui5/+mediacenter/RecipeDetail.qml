@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import org.kde.kirigami 2.19 as Kirigami
+import QtQuick 2.12
+import QtQuick.Layouts 1.4
+import QtQuick.Controls 2.12
+import org.kde.kirigami 2.11 as Kirigami
+import QtGraphicalEffects 1.0
 import Mycroft 1.0 as Mycroft
-import Qt5Compat.GraphicalEffects
 import "code/helper.js" as HelperJS
 
 Mycroft.Delegate {
@@ -30,16 +30,16 @@ Mycroft.Delegate {
     property bool horizontalMode: width > height ? 1 : 0
     fillWidth: true
     
-    Keys.onBackPressed: (event)=> {
+    Keys.onBackPressed: {
         parent.parent.parent.currentIndex--
         parent.parent.parent.currentItem.contentItem.forceActiveFocus()
     }
 
-    Keys.onUpPressed: (event)=> {
+    Keys.onUpPressed: {
         backButton.forceActiveFocus()
     }
 
-    Keys.onDownPressed: (event)=> {
+    Keys.onDownPressed: {
         readRecipeButton.forceActiveFocus()
     }
 
@@ -74,10 +74,6 @@ Mycroft.Delegate {
                     source: parent
                     color: Kirigami.Theme.textColor
                 }
-            }
-
-            Keys.onReturnPressed: (event)=> {
-                clicked()
             }
 
             onClicked: {
@@ -413,10 +409,6 @@ Mycroft.Delegate {
                             }
                         }
 
-                        Keys.onReturnPressed: (event)=> {
-                            clicked()
-                        }
-
                         onClicked: {
                             if (ingredientsLabel.visible) {
                                 triggerGuiEvent("foodwizard.readrecipe.ingredients", {})
@@ -528,10 +520,6 @@ Mycroft.Delegate {
                         color: Kirigami.Theme.textColor
                     } 
                 }
-
-                Keys.onReturnPressed: (event)=> {
-                    clicked()
-                }
             }
 
             TabButton {
@@ -555,10 +543,6 @@ Mycroft.Delegate {
                         text: qsTr("Instructions")
                         color: Kirigami.Theme.textColor
                     }
-                }
-
-                Keys.onReturnPressed: (event)=> {
-                    clicked()
                 }
             }
         }

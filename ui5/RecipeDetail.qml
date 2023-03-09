@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import org.kde.kirigami 2.19 as Kirigami
+import QtQuick 2.12
+import QtQuick.Layouts 1.4
+import QtQuick.Controls 2.12
+import org.kde.kirigami 2.11 as Kirigami
+import QtGraphicalEffects 1.0
 import Mycroft 1.0 as Mycroft
-import Qt5Compat.GraphicalEffects
 import "code/helper.js" as HelperJS
 
 Mycroft.Delegate {
@@ -30,17 +30,9 @@ Mycroft.Delegate {
     property bool horizontalMode: width > height ? 1 : 0
     fillWidth: true
     
-    Keys.onBackPressed: (event)=> {
+    Keys.onBackPressed: {
         parent.parent.parent.currentIndex--
         parent.parent.parent.currentItem.contentItem.forceActiveFocus()
-    }
-
-    Keys.onUpPressed: (event)=> {
-        backButton.forceActiveFocus()
-    }
-
-    Keys.onDownPressed: (event)=> {
-        readRecipeButton.forceActiveFocus()
     }
 
     Item {
@@ -74,10 +66,6 @@ Mycroft.Delegate {
                     source: parent
                     color: Kirigami.Theme.textColor
                 }
-            }
-
-            Keys.onReturnPressed: (event)=> {
-                clicked()
             }
 
             onClicked: {
@@ -378,8 +366,6 @@ Mycroft.Delegate {
                         id: readRecipeButton
                         anchors.fill: parent
                         anchors.margins: Mycroft.Units.gridUnit / 2
-                        KeyNavigation.down: ingredientsTabButton
-                        KeyNavigation.up: backButton
 
                         background: Rectangle {
                             color: Kirigami.Theme.highlightColor
@@ -411,10 +397,6 @@ Mycroft.Delegate {
                                     color: Kirigami.Theme.textColor
                                 }
                             }
-                        }
-
-                        Keys.onReturnPressed: (event)=> {
-                            clicked()
                         }
 
                         onClicked: {
@@ -507,14 +489,10 @@ Mycroft.Delegate {
             }
 
             TabButton {
-                id: ingredientsTabButton
                 onClicked: tabbar.currentIndex = 0
                 enabled: true
                 visible: true
                 height: Kirigami.Units.gridUnit * 1.5
-                KeyNavigation.up: readRecipeButton
-                KeyNavigation.right: instructionsTabButton
-                KeyNavigation.down: backButton
 
                 background: Rectangle {
                     color: ingredientsLabel.visible ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor
@@ -528,21 +506,13 @@ Mycroft.Delegate {
                         color: Kirigami.Theme.textColor
                     } 
                 }
-
-                Keys.onReturnPressed: (event)=> {
-                    clicked()
-                }
             }
 
             TabButton {
-                id: instructionsTabButton
                 onClicked: tabbar.currentIndex = 1
                 enabled: sessionData.hasInstructions
                 visible: sessionData.hasInstructions
                 height: Kirigami.Units.gridUnit * 1.5
-                KeyNavigation.up: readRecipeButton
-                KeyNavigation.left: ingredientsTabButton
-                KeyNavigation.down: backButton
                 
                 background: Rectangle {
                     color: instructionsLabel.visible ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor
@@ -555,10 +525,6 @@ Mycroft.Delegate {
                         text: qsTr("Instructions")
                         color: Kirigami.Theme.textColor
                     }
-                }
-
-                Keys.onReturnPressed: (event)=> {
-                    clicked()
                 }
             }
         }
